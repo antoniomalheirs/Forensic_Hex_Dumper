@@ -5,6 +5,9 @@ on:
     branches: [ "main", "master" ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -28,3 +31,14 @@ jobs:
       with:
         name: Hex_Dumper
         path: release_drop/Hex_Dumper.exe
+
+    - name: Create Release
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: continuous
+        name: Continuous Release
+        files: release_drop/Hex_Dumper.exe
+        draft: false
+        prerelease: true
+        overwrite: true
