@@ -34,11 +34,14 @@ jobs:
 
     - name: Create Release
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      id: create_release
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: continuous
-        name: Continuous Release
-        files: release_drop/Hex_Dumper.exe
+        tag_name: v1.0.${{ github.run_number }}
+        name: Release v1.0.${{ github.run_number }}
         draft: false
-        prerelease: true
-        overwrite: true
+        prerelease: false
+        files: |
+          release_drop/Hex_Dumper.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
